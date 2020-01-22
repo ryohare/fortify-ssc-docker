@@ -20,6 +20,7 @@ Prior to running any of the build scripts, Fortify SSC should be downloaded and 
 Stage all the files for docker to find.
 ```bash
 # prep the create tables script for the docker container
+unzip Fortify_SSC_Server_19.2.0.zip
 echo "set global sql_mode = 'TRADITIONAL';
 set sql_mode = 'TRADITIONAL';
 create database ssc character set utf8 collate utf8_bin;
