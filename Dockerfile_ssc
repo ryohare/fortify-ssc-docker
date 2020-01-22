@@ -1,0 +1,22 @@
+#
+# This image doesn't work with the ssc. I don't know why. I suspect it doesn't have a full tomcat setup or something
+#
+FROM tomcat:9.0
+
+WORKDIR /tmp
+
+COPY . .
+
+RUN apt update
+RUN unzip -o Fortify_SSC_Server_19.2.0.zip
+RUN unzip -o Fortify_19.2.0_Server_WAR_Tomcat.zip
+RUN mv ssc.war /usr/local/tomcat/webapps
+RUN wget https://downloads.mariadb.com/Connectors/java/connector-java-2.5.3/mariadb-java-client-2.5.3.jar
+RUN cp mariadb-java-client-2.5.3.jar /usr/local/tomcat/lib/
+RUN cp mysql-connector-java-8.0.19.jar /usr/local/tomcat/lib/mysql-connector-java-8.0.19.jar
+#RUN cp fortify.license /root/.fortify/ssc/conf/temp-fortify.license
+#RUN sed -i 's/host\.url=.*/host\.url=http\:\/\/test\.fortify\.com/g' /root/.fortify/ssc/conf/temp-app.properties
+#RUN cat /root/.fortify/ssc/init.token
+RUN rm -rf ./*
+RUN apt install libmysql-java
+WORKDIR /root/.fortify/ssc

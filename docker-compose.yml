@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+    db:
+        build:
+            context: .
+            dockerfile: Dockerfile_db
+        restart: always
+        environment:
+            # MYSQL_DATABASE: ssc
+            MYSQL_ROOT_PASSWORD: fortify
+    ssc:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        image: cssc
+        restart: always
+        ports:
+            - "8989:8080"
+    cloudctrl:
+        build:
+            context: .
+            dockerfile: Dockerfile_cc
+        image: cloudctrl
+        restart: always
+    cloudsensor:
+        build:
+            context: .
+            dockerfile: Dockerfile_cs
+        image: cloudsensor
+        restart: always

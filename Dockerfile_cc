@@ -1,0 +1,38 @@
+FROM docker.io/library/centos:latest
+
+# work in temp for the install
+WORKDIR /tmp
+
+# copy all local files over
+COPY . .
+
+RUN yum update -y && yum install -y unzip java-1.8.0-openjdk-devel
+
+RUN unzip -o Fortify_SSC_Server_19.2.0.zip
+RUN unzip -o Fortify_CloudScan_Controller_19.2.0.zip
+RUN unzip -o Fortify_CloudScan_Controller_19.2.0_x64.zip
+RUN mv tomcat /opt/tomcat
+RUN chmod +x /opt/tomcat/bin/*.sh
+RUN rm -rf /tmp/*
+
+# set worker secret
+# TODO make this a build arg or a run time arg that gets set in a bash script
+RUN sed -i 's/worker_auth_token=.*/worker_auth_token=bad\-pass/g' /opt/tomcat/webapps/cloud-ctrl/WEB-INF/classes/config.properties
+
+# TODO make this a build arg or a run time arg that gets set in a bash script
+RUN sed -i 's/ssc_cloudctrl_secret=changeme/ssc_cloudctrl_secret=bad\-pass/g' /opt/tomcat/webapps/cloud-ctrl/WEB-INF/classes/config.properties
+
+RUN sed -i 's/ssc_url=http\:\/\/localhost\:8180\/ssc/ssc_url=http\:\/\/ssc\:8080\/ssc/g' /opt/tomcat/webapps/cloud-ctrl/WEB-INF/classes/config.properties
+RUN sed -i 's/this_url=http\:\/\/localhost\:8080\/cloud-ctrl/this_url=http\:\/\/cloudctrl\:8080\/cloud-ctrl/g' /opt/tomcat/webapps/cloud-ctrl/WEB-INF/classes/config.properties
+
+# from unit-d file https://linuxize.com/post/how-to-install-tomcat-9-on-centos-7/
+ENV JAVA_HOME /usr/lib/jvm/jre
+ENV JAVA_OPTS -Djava.security.egd=file:///dev/urandom
+ENV CATALINA_BASE /opt/tomcat
+ENV CATALINA_HOME /opt/tomcat
+ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
+ENV CATALINA_OPTS -Xms512M -Xmx1024M -server -XX:+UseParallelGC
+
+EXPOSE 8080
+
+ENTRYPOINT /opt/tomcat/bin/catalina.sh run

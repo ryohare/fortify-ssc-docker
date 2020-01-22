@@ -1,0 +1,31 @@
+FROM docker.io/library/centos:latest
+
+# work in temp for the install
+WORKDIR /tmp
+
+# copy all local files over
+COPY . .
+
+RUN yum update -y
+
+RUN tar -xvf Fortify_SCA_and_Apps_19.2.0_Linux.tar.gz
+RUN ./Fortify_SCA_and_Apps_19.2.0_linux_x64.run --mode unattended --installdir /opt/fortify --InstallSamples 0 --fortify_license_path ./fortify.license
+RUN /opt/fortify/bin/fortifyupdate
+
+RUN rm -rf /tmp/*
+
+#TODO make this a build env or make it something that gets passed into startup
+#by setting this worker.properties as the entry point in a bash script
+RUN echo "worker_auth_token=bad-pass" > /opt/fortify/Core/config/worker.properties
+
+# from unit-d file https://linuxize.com/post/how-to-install-tomcat-9-on-centos-7/
+ENV JAVA_HOME /usr/lib/jvm/jre
+ENV JAVA_OPTS -Djava.security.egd=file:///dev/urandom
+ENV CATALINA_BASE /opt/tomcat
+ENV CATALINA_HOME /opt/tomcat
+ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
+ENV CATALINA_OPTS -Xms512M -Xmx1024M -server -XX:+UseParallelGC
+
+# EXPOSE 8080
+
+ENTRYPOINT /opt/fortify/bin/cloudscan -url http://cloudctrl:8080/cloud-ctrl worker

@@ -1,0 +1,8 @@
+#FROM mariadb
+FROM mysql
+
+WORKDIR /tmp
+
+COPY create-tables.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306
