@@ -10,7 +10,7 @@ This container runs the SSC tomcat web app. It is based on a Centos7 base imagse
 This container runs a mysql instance used as the database server for the SSC webapp. It will be pre-seeded with the SSC schema which will be applied on container startup.
 ### Cloud Controller - Dockerfile_cc
 This container runs the cloud controller webapp.
-### Cloud Sensor
+### Cloud Sensor - Dockerfile_cs
 This container runs a cloud sensor instance.
 
 ## Preconditions
