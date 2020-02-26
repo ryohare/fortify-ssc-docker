@@ -52,7 +52,7 @@ Next click through the next screens, uploading the license file and setting the 
  * username: root
  * password: fortify
  * JDBC URL: 
-  * jdbc:mysql://db:3306/ssc?connectionCollation=utf8_bin&rewriteBatchedStatements=true
+   * jdbc:mysql://db:3306/ssc?connectionCollation=utf8_bin&rewriteBatchedStatements=true
  ![alt text](images/db_config.png "DB Config")
 
 Now, seed the Process and Report seed files extracted from the main SSC zip file.
