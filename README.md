@@ -51,7 +51,8 @@ Then enter it into the UI
 Next click through the next screens, uploading the license file and setting the SSC URL until the MySQL configuration page. Enter the following values;
  * username: root
  * password: fortify
- * JDBC URL: jdbc:mysql://db:3306/ssc?connectionCollation=utf8_bin&rewriteBatchedStatements=true
+ * JDBC URL: 
+  * jdbc:mysql://db:3306/ssc?connectionCollation=utf8_bin&rewriteBatchedStatements=true
  ![alt text](images/db_config.png "DB Config")
 
 Now, seed the Process and Report seed files extracted from the main SSC zip file.
@@ -68,7 +69,10 @@ docker exec -it fortify-ssc-docker_ssc_1 kill 1
 Once the SSC, is backup, navigate back to the main page [http://localhost:8989/ssc](http://localhost:8989/ssc). Login in with the default credentials of admin:admin and when prompted set a new password.
 
 Once into the main UI, navigate to Administration -> Configuration -> Cloudscan and select enable and set the host to cloudctrl, then restart the ssc again.
-
+* URL
+  * http://cloudctrl:8080/cloud-ctrl
+* Pass
+  * bad-pass
 ![alt text](images/cloudctrl_config.png "cloudctrl_config")
 ```bash
 #restart again
