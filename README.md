@@ -68,7 +68,7 @@ docker exec -it fortify-ssc-docker_ssc_1 kill 1
 
 Once the SSC, is backup, navigate back to the main page [http://localhost:8989/ssc](http://localhost:8989/ssc). Login in with the default credentials of admin:admin and when prompted set a new password.
 
-Once into the main UI, navigate to Administration -> Configuration -> Cloudscan and select enable and set the host to cloudctrl, then restart the ssc again.
+Once into the main UI, navigate to Administration -> Configuration -> Cloudscan and select enable and set the host to cloudctrl, then restart the ssc again. 
 * URL
   * http://cloudctrl:8080/cloud-ctrl
 * Pass
@@ -78,6 +78,9 @@ Once into the main UI, navigate to Administration -> Configuration -> Cloudscan 
 #restart again
 docker exec -it fortify-ssc-docker_ssc_1 kill 1
 ```
+
+Often times, to get the UI to referesh, you will need to explicilty log out of the SSC and log back in.
+
 
 At this point, the SSC, Database, Cloud Controller and Cloud Sensor should all be online and communicating with each other.
 
